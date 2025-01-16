@@ -18,8 +18,8 @@ public class ApplicationControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiErrors handleValidationException(MethodArgumentNotValidException exception) {
-       BindingResult bindingResult = exception.getBindingResult();
+    public ApiErrors handleValidationException(MethodArgumentNotValidException ex) {
+       BindingResult bindingResult = ex.getBindingResult();
        List<String> messages = bindingResult.getAllErrors()
                .stream()
                .map( objectError -> objectError.getDefaultMessage() )
@@ -28,9 +28,9 @@ public class ApplicationControllerAdvice {
     }
 
     @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity handleResponseStatusException(ResponseStatusException exception) {
-        String message = exception.getMessage();
-        HttpStatus status = exception.getStatus();
+    public ResponseEntity handleResponseStatusException(ResponseStatusException ex) {
+        String message = ex.getReason();
+        HttpStatus status = ex.getStatus();
         ApiErrors apiErrors = new ApiErrors(message);
         return new ResponseEntity(apiErrors, status);
     }

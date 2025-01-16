@@ -19,7 +19,7 @@ public class ServicoPrestado {
     private String descricao;
 
     @ManyToOne
-    @JoinColumn(name = "id_cleinte")
+    @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
     @Column
